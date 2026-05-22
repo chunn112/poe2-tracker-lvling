@@ -9,7 +9,7 @@
 
   const I18N = {
     en: {
-      brandSubtitle: "Leveling route and game sync",
+      brandSubtitle: "Route leveling tracker",
       overlay: "Overlay",
       sync: "Sync",
       guideProgress: "Guide progress",
@@ -48,43 +48,43 @@
       currentAreaIs: "Current area is"
     },
     vi: {
-      brandSubtitle: "Route leveling va dong bo game",
+      brandSubtitle: "Route leveling tracker",
       overlay: "Overlay",
-      sync: "Dong bo",
-      guideProgress: "Tien do guide",
-      currentPage: "Page hien tai",
-      autoAdvance: "Tu chuyen buoc",
-      on: "Bat",
-      off: "Tat",
-      guideOptions: "Tuy chon guide",
-      showOptionals: "Hien buoc tuy chon",
+      sync: "Đồng bộ",
+      guideProgress: "Tiến độ guide",
+      currentPage: "Page hiện tại",
+      autoAdvance: "Tự chuyển bước",
+      on: "Bật",
+      off: "Tắt",
+      guideOptions: "Tùy chọn guide",
+      showOptionals: "Hiện bước tùy chọn",
       acts: "Act",
       heroTitle: "Guide leveling",
-      currentGuidePage: "Page guide hien tai",
-      syncZone: "Dong bo zone",
-      currentArea: "Area hien tai",
-      targetArea: "Area muc tieu",
-      back: "Lui",
-      next: "Tiep",
+      currentGuidePage: "Page guide hiện tại",
+      syncZone: "Đồng bộ zone",
+      currentArea: "Area hiện tại",
+      targetArea: "Area mục tiêu",
+      back: "Lùi",
+      next: "Tiếp",
       reset: "Reset",
-      syncCurrent: "Dong bo hien tai",
-      syncOff: "Dong bo game dang tat.",
-      noAreaDetected: "Chua phat hien area.",
-      noTargetArea: "Khong co target area",
-      unknown: "chua ro",
-      none: "khong co",
-      detected: "Da phat hien",
-      unmapped: "Chua map duoc",
-      login: "Client dang o man hinh login.",
-      noForwardStep: "Khong tim thay step tiep theo cho",
-      noRewind: "dang o step hien tai hoac phia sau progress; khong nhay lui.",
-      anchoredAt: "Da neo tai",
-      continuing: "tiep tuc tu step nay.",
-      waitingFor: "guide van dang cho",
+      syncCurrent: "Đồng bộ hiện tại",
+      syncOff: "Đồng bộ game đang tắt.",
+      noAreaDetected: "Chưa phát hiện area.",
+      noTargetArea: "Không có target area",
+      unknown: "chưa rõ",
+      none: "không có",
+      detected: "Đã phát hiện",
+      unmapped: "Chưa map được",
+      login: "Client đang ở màn hình login.",
+      noForwardStep: "Không tìm thấy step tiếp theo cho",
+      noRewind: "đang ở step hiện tại hoặc phía sau progress; không nhảy lùi.",
+      anchoredAt: "Đã neo tại",
+      continuing: "tiếp tục từ step này.",
+      waitingFor: "guide vẫn đang chờ",
       guideWord: "guide",
       page: "page",
       areaLevel: "area level",
-      currentAreaIs: "Area hien tai la"
+      currentAreaIs: "Area hiện tại là"
     }
   };
 
@@ -558,7 +558,7 @@
     });
     els.langEn.classList.toggle("active", state.language === "en");
     els.langVi.classList.toggle("active", state.language === "vi");
-    els.themeToggle.setAttribute("aria-label", state.language === "vi" ? "Doi giao dien" : "Toggle theme");
+    els.themeToggle.setAttribute("aria-label", state.language === "vi" ? "Đổi giao diện" : "Toggle theme");
     if (!state.syncEnabled && !state.log.areaId) state.log.statusText = t("syncOff");
   }
 
@@ -599,12 +599,18 @@
   function localizeStatus(text) {
     if (state.language !== "vi") return text;
     const map = {
-      "Game sync is off.": "Dong bo game dang tat.",
-      "Game sync is on.": "Dong bo game dang bat.",
-      "Game log not found. Start Path of Exile 2 once, then enable sync again.": "Khong tim thay game log. Hay mo Path of Exile 2 mot lan, sau do bat dong bo lai.",
-      "Local service is not running. Start the tracker with start.bat.": "Local service chua chay. Hay mo tracker bang start.bat.",
-      "Local service connection lost. Restart the tracker.": "Mat ket noi local service. Hay khoi dong lai tracker."
+      "Game sync is off.": "Đồng bộ game đang tắt.",
+      "Game sync is on.": "Đồng bộ game đang bật.",
+      "Game log not found. Start Path of Exile 2 once, then enable sync again.": "Không tìm thấy game log. Hãy mở Path of Exile 2 một lần, sau đó bật đồng bộ lại.",
+      "Local service is not running. Start the tracker with start.bat.": "Local service chưa chạy. Hãy mở tracker bằng start.bat.",
+      "Local service connection lost. Restart the tracker.": "Mất kết nối local service. Hãy khởi động lại tracker."
     };
+    const currentArea = String(text || "").match(/^Current area is (.+); guide is still waiting for (.+)\.$/);
+    if (currentArea) return `Area hiện tại là ${currentArea[1]}; guide vẫn đang chờ ${currentArea[2]}.`;
+    const detected = String(text || "").match(/^Detected (.+)\.$/);
+    if (detected) return `Đã phát hiện ${detected[1]}.`;
+    const unmapped = String(text || "").match(/^Could not map (.+)\.$/);
+    if (unmapped) return `Chưa map được ${unmapped[1]}.`;
     return map[text] || text;
   }
 
