@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POE2 Leveltracker</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <strong>POE2 Leveltracker</strong>
+        <span data-i18n="brandSubtitle">Leveling route and game sync</span>
+      </div>
+      <div class="top-actions">
+        <div class="language-toggle" aria-label="Language">
+          <button class="lang-button active" id="langEn" type="button" data-lang="en">EN</button>
+          <button class="lang-button" id="langVi" type="button" data-lang="vi">VI</button>
+        </div>
+        <button class="button primary" id="openOverlay" type="button">▣ <span class="optional-label" data-i18n="overlay">Overlay</span></button>
+        <button class="icon-button" id="themeToggle" type="button" aria-label="Toggle theme">●</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar" aria-label="Leveltracker controls">
+      <section class="panel-section">
+        <p class="section-label" data-i18n="guideProgress">Guide progress</p>
+        <div class="progress-track" aria-hidden="true"><span class="progress-fill" id="progressBar"></span></div>
+        <p class="progress-text" id="progressText">0%</p>
+        <p class="status-text"><span data-i18n="currentPage">Current page</span>: <strong id="guidePosition">1</strong></p>
+      </section>
+
+      <section class="panel-section">
+        <p class="section-label" data-i18n="sync">Sync</p>
+        <button class="toggle-button" id="autoAdvance" type="button" aria-pressed="false">
+          <span data-i18n="autoAdvance">Auto advance</span>
+          <strong id="autoAdvanceState">Off</strong>
+        </button>
+        <div style="height: 10px;"></div>
+        <div class="status-line">
+          <span class="status-dot" id="logStatusDot"></span>
+          <span id="logStatusText">Game sync is off.</span>
+        </div>
+        <div style="height: 8px;"></div>
+        <div class="area-readout" id="currentArea">No area detected.</div>
+      </section>
+
+      <section class="panel-section">
+        <p class="section-label" data-i18n="guideOptions">Guide options</p>
+        <label class="field" for="showOptionals">
+          <span data-i18n="showOptionals">Show optional steps</span>
+          <input id="showOptionals" type="checkbox">
+        </label>
+      </section>
+
+      <section class="panel-section">
+        <p class="section-label" data-i18n="acts">Acts</p>
+        <div class="act-pills" id="actPills"></div>
+      </section>
+    </aside>
+
+    <section class="main">
+      <article class="hero">
+        <h1 data-i18n="heroTitle">Leveling guide</h1>
+      </article>
+
+      <article class="guide-card">
+        <header class="guide-header">
+          <div>
+            <h2 data-i18n="currentGuidePage">Current guide page</h2>
+            <p id="pageMeta">Act 1 · page 1</p>
+          </div>
+          <button class="button" id="syncArea" type="button" data-i18n="syncZone">Sync zone</button>
+        </header>
+
+        <section class="target-grid">
+          <div class="target-box">
+            <span data-i18n="currentArea">Current area</span>
+            <strong id="currentAreaMirror">No area detected.</strong>
+          </div>
+          <div class="target-box">
+            <span data-i18n="targetArea">Target area</span>
+            <strong id="targetArea">No target area</strong>
+          </div>
+        </section>
+
+        <ol class="guide-lines" id="pageLines"></ol>
+
+        <footer class="guide-controls">
+          <button class="button" id="prevPage" type="button">‹ <span data-i18n="back">Back</span></button>
+          <button class="button primary" id="nextPage" type="button"><span data-i18n="next">Next</span> ›</button>
+          <button class="button" id="resetGuide" type="button" data-i18n="reset">Reset</button>
+          <button class="button" id="syncAreaFooter" type="button" data-i18n="syncCurrent">Sync current</button>
+        </footer>
+      </article>
+    </section>
+  </main>
+
+  <div class="game-overlay" id="overlayPanel">
+    <section class="overlay-card">
+      <div id="overlayRoot"></div>
+    </section>
+  </div>
+
+  <script src="js/exile-ui-data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/guide-engine.js"></script>
+  <script src="js/log-reader.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
